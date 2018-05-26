@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[ubuntu使用习惯]]></title>
+    <url>%2F2018%2F05%2F26%2Fchange-ubuntu%2F</url>
+    <content type="text"><![CDATA[作为一名程序员电脑上装个双系统是很正常的事情，装完双系统当然要改造一下适应自己的习惯. 更改时间一般ubuntu和win10双系统会差八个小时，因为win10会把硬件时间当作本地时间，而Linux会将硬件时间当作utc时间。 ubuntu下解决：1sudo timedatectl set-local-rtc 1 win10下解决:1注册表找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation 在TimeZoneInformation里新建Dword类型键RealTimeIsUniversal值为1，保存重启。 更换阿里源用官方的软件源和用阿里的速度根本就不是一个级别的。 在https://opsx.alibaba.com/mirror 找到ubuntu对应的内容，复制。 替换掉/etc/apt/sources.list中的内容。 替换之前记得备份。 更改git的默认编辑器为vim1.全局修改，git config --global core.editor vim 2.打开.git/config,在core中添加editor=vim 安装mysql123sudo apt-get install mysql-serversudo apt install mysql-clientsudo apt install libmysqlclient-dev 将mysql设置为utf编码修改/etc/mysql/my.cnf 12345678[client]default-character-set=utf8[mysqld]character-set-server=utf8[mysql]default-character-set=utf8]]></content>
+      <categories>
+        <category>linux</category>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>mysql</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[nothing]]></title>
     <url>%2F2018%2F05%2F26%2Fnothing%2F</url>
     <content type="text"><![CDATA[有人作恶，就有人为善 就像bug和debug 你们Debug the world 我来debug my code ——致差评]]></content>

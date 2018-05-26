@@ -320,6 +320,195 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://letangers.github.io/2018/05/26/change-ubuntu/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="letangers">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="letangers">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/26/change-ubuntu/" itemprop="url">ubuntu使用习惯</a></h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T21:23:19+08:00">
+                2018-05-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/" itemprop="url" rel="index">
+                    <span itemprop="name">linux</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/linux/ubuntu/" itemprop="url" rel="index">
+                    <span itemprop="name">ubuntu</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+            <div class="post-wordcount">
+              
+
+              
+
+              
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-clock-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">阅读时长 &asymp;</span>
+                
+                <span title="阅读时长">
+                  
+                </span>
+              
+            </div>
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>作为一名程序员电脑上装个双系统是很正常的事情，装完双系统当然要改造一下适应自己的习惯.</p>
+<h3 id="更改时间"><a href="#更改时间" class="headerlink" title="更改时间"></a>更改时间</h3><p>一般ubuntu和win10双系统会差八个小时，因为win10会把硬件时间当作本地时间，而Linux会将硬件时间当作utc时间。</p>
+<p>ubuntu下解决：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo timedatectl <span class="built_in">set</span>-local-rtc 1</span><br></pre></td></tr></table></figure></p>
+<p>win10下解决:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">注册表找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation</span><br></pre></td></tr></table></figure></p>
+<p>在TimeZoneInformation里新建Dword类型键RealTimeIsUniversal值为1，保存重启。</p>
+<h3 id="更换阿里源"><a href="#更换阿里源" class="headerlink" title="更换阿里源"></a>更换阿里源</h3><pre><code>用官方的软件源和用阿里的速度根本就不是一个级别的。
+
+在https://opsx.alibaba.com/mirror 找到ubuntu对应的内容，复制。
+
+替换掉/etc/apt/sources.list中的内容。
+
+替换之前记得备份。
+</code></pre><h3 id="更改git的默认编辑器为vim"><a href="#更改git的默认编辑器为vim" class="headerlink" title="更改git的默认编辑器为vim"></a>更改git的默认编辑器为vim</h3><pre><code>1.全局修改，git config --global core.editor vim
+
+2.打开.git/config,在core中添加editor=vim
+</code></pre><h3 id="安装mysql"><a href="#安装mysql" class="headerlink" title="安装mysql"></a>安装mysql</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install mysql-server</span><br><span class="line">sudo apt install mysql-client</span><br><span class="line">sudo apt install libmysqlclient-dev</span><br></pre></td></tr></table></figure>
+<h3 id="将mysql设置为utf编码"><a href="#将mysql设置为utf编码" class="headerlink" title="将mysql设置为utf编码"></a>将mysql设置为utf编码</h3><pre><code>修改/etc/mysql/my.cnf
+</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">default-character-set=utf8</span><br><span class="line"></span><br><span class="line">[mysqld]</span><br><span class="line">character-set-server=utf8</span><br><span class="line"></span><br><span class="line">[mysql]</span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<p><br><br><br></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://letangers.github.io/2018/05/26/nothing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -434,6 +623,9 @@
             <center><br><br>    有人作恶，就有人为善<br><br>    就像bug和debug<br><br>    你们Debug the world<br><br>    我来debug my code<br><br></center>
 
 <p align="right"><br><br>                              ——致差评<br><br></p>
+
+<p><br><br><br></p>
+
           
         
       
@@ -664,7 +856,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -675,7 +867,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -686,7 +878,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">3</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
