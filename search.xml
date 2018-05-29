@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[线性表]]></title>
+    <url>%2F2018%2F05%2F29%2Fdata-struct-1%2F</url>
+    <content type="text"><![CDATA[最近心血来潮，想把学过的数据结构和算法实现一遍。 这是第一篇。 线性表是元素之间的线性关系，也就是“一个接一个”。有两种实现，一种是顺序表，一种是链表。 –顺序表顺序表是用一块连续的内存空间存放数据，所以好处就是定位某个位置的元素是比较容易，但插入删除时需要移动元素，导致效率低。 一般顺序表的数据结构定义如下：1234typedef struct &#123; T data[maxsize]; int last;&#125; 我实现了一个完整的顺序表的类，点这里查看包括了一些基本的操作，如插入元素，定位元素，删除元素等。 –链表链表是用指针实现的，不需要连续的内存空间，所以插入删除速度很快。但相应的，由于地址不连续，定位某个位置的元素会比较慢。 链表的数据结构一般包含两个部分，数据域和指针域。如下：1234typedef struct Node&#123; T data; struct Node *next;&#125; 同样我也实现了一个完整的链表类，点这里查看实现了增删改查。]]></content>
+      <categories>
+        <category>algorithm</category>
+        <category>数据结构</category>
+      </categories>
+      <tags>
+        <tag>数据结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[排序(1)]]></title>
+    <url>%2F2018%2F05%2F29%2Fsort%2F</url>
+    <content type="text"><![CDATA[最近心血来潮，想把学过的数据结构和算法实现一遍。 这是第二篇。 内容有各种排序]]></content>
+      <categories>
+        <category>algorithm</category>
+        <category>sort</category>
+      </categories>
+      <tags>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[ubuntu使用习惯]]></title>
     <url>%2F2018%2F05%2F26%2Fchange-ubuntu%2F</url>
     <content type="text"><![CDATA[作为一名程序员电脑上装个双系统是很正常的事情，装完双系统当然要改造一下适应自己的习惯. 更改时间一般ubuntu和win10双系统会差八个小时，因为win10会把硬件时间当作本地时间，而Linux会将硬件时间当作utc时间。 ubuntu下解决：1sudo timedatectl set-local-rtc 1 win10下解决:1注册表找到HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\TimeZoneInformation 在TimeZoneInformation里新建Dword类型键RealTimeIsUniversal值为1，保存重启。 更换阿里源用官方的软件源和用阿里的速度根本就不是一个级别的。 在https://opsx.alibaba.com/mirror 找到ubuntu对应的内容，复制。 替换掉/etc/apt/sources.list中的内容。 替换之前记得备份。 更改git的默认编辑器为vim1.全局修改，git config --global core.editor vim 2.打开.git/config,在core中添加editor=vim 安装mysql123sudo apt-get install mysql-serversudo apt install mysql-clientsudo apt install libmysqlclient-dev 将mysql设置为utf编码修改/etc/mysql/my.cnf 12345678[client]default-character-set=utf8[mysqld]character-set-server=utf8[mysql]default-character-set=utf8]]></content>
