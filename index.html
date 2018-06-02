@@ -594,7 +594,7 @@
           
             <p><center>整理tcp相关知识，这是第二篇。</center></p>
 <p><hr></p>
-<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="/images/tcp-2.png"></p>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="/images/tcp-2-three.png"></p>
 <ol>
 <li><p>首先B的服务器进程创建传输控制块TCB，等待客户端的连接请求。此时服务端处在LISTEN（监听）状态</p>
 </li>
@@ -607,7 +607,7 @@
 <li><p>B收到A的确认之后也进入STABLISHED(已建立连接)状态。</p>
 </li>
 </ol>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="/images/tcp-2.jpg"></p>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="/images/tcp-2-four.jpg"></p>
 <ol>
 <li><p>A的应用进程向其TCP发送连接释放报文段，并停止发送数据。（FIN为1，即使不携带数据也要消耗一个序号）A进入FIN-WAIT-1(终止等待1)状态</p>
 </li>
