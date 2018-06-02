@@ -86,20 +86,20 @@
 
 
 
-<meta name="description" content="整理tcp相关知识，这是第二篇。  三次握手&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.A发起连接，设置序号为a &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2.B给A发包，设置序号为b，B表示下次期望收到的序号为a+1 &amp;nbsp;&amp;nbsp">
+<meta name="description" content="整理tcp相关知识，这是第二篇。  三次握手  首先B的服务器进程创建传输控制块TCB，等待客户端的连接请求。此时服务端处在LISTEN（监听）状态  A的客户进程同样要先创建TCB，然后向B发送连接请求报文段（SYN为1，选择一个初始序号a，且此报文段不携带数据，但消耗一个序号），这时A进入SYN-SENT（同步已发送）状态  B收到请求后，向A发送确认（SYN和ACK都为1，确认号为a+1,同">
 <meta name="keywords" content="tcp,计算机网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="三次握手和四次挥手">
 <meta property="og:url" content="http://letangers.github.io/2018/05/31/tcp-2/index.html">
 <meta property="og:site_name" content="letangers">
-<meta property="og:description" content="整理tcp相关知识，这是第二篇。  三次握手&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.A发起连接，设置序号为a &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2.B给A发包，设置序号为b，B表示下次期望收到的序号为a+1 &amp;nbsp;&amp;nbsp">
+<meta property="og:description" content="整理tcp相关知识，这是第二篇。  三次握手  首先B的服务器进程创建传输控制块TCB，等待客户端的连接请求。此时服务端处在LISTEN（监听）状态  A的客户进程同样要先创建TCB，然后向B发送连接请求报文段（SYN为1，选择一个初始序号a，且此报文段不携带数据，但消耗一个序号），这时A进入SYN-SENT（同步已发送）状态  B收到请求后，向A发送确认（SYN和ACK都为1，确认号为a+1,同">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://letangers.github.io/images/tcp-2.png">
 <meta property="og:image" content="http://letangers.github.io/images/tcp-2.jpg">
-<meta property="og:updated_time" content="2018-05-30T17:29:29.405Z">
+<meta property="og:updated_time" content="2018-06-02T02:31:34.448Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="三次握手和四次挥手">
-<meta name="twitter:description" content="整理tcp相关知识，这是第二篇。  三次握手&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;1.A发起连接，设置序号为a &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;2.B给A发包，设置序号为b，B表示下次期望收到的序号为a+1 &amp;nbsp;&amp;nbsp">
+<meta name="twitter:description" content="整理tcp相关知识，这是第二篇。  三次握手  首先B的服务器进程创建传输控制块TCB，等待客户端的连接请求。此时服务端处在LISTEN（监听）状态  A的客户进程同样要先创建TCB，然后向B发送连接请求报文段（SYN为1，选择一个初始序号a，且此报文段不携带数据，但消耗一个序号），这时A进入SYN-SENT（同步已发送）状态  B收到请求后，向A发送确认（SYN和ACK都为1，确认号为a+1,同">
 <meta name="twitter:image" content="http://letangers.github.io/images/tcp-2.png">
 
 
@@ -433,13 +433,36 @@
       
         <p><center>整理tcp相关知识，这是第二篇。</center></p>
 <p><hr></p>
-<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="/images/tcp-2.png"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.A发起连接，设置序号为a</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.B给A发包，设置序号为b，B表示下次期望收到的序号为a+1</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.A给B发包，表示下次期望收到的数据序号为b+1，连接建立</p>
-<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="/images/tcp-2.jpg"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1.A发起终止，设置FIN为1，表示想终止连接</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2.B给A发送响应包，此时拆除了A主动给B发送数据的连接</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3.B给A发包，设置FIN为1</p>
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4.A给B发送响应包，拆除了B主动给A发送数据的连接</p>
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><p><img src="/images/tcp-2.png"></p>
+<ol>
+<li><p>首先B的服务器进程创建传输控制块TCB，等待客户端的连接请求。此时服务端处在LISTEN（监听）状态</p>
+</li>
+<li><p>A的客户进程同样要先创建TCB，然后向B发送连接请求报文段（SYN为1，选择一个初始序号a，且此报文段不携带数据，但消耗一个序号），这时A进入SYN-SENT（同步已发送）状态</p>
+</li>
+<li><p>B收到请求后，向A发送确认（SYN和ACK都为1，确认号为a+1,同时为自己选择一个初始序号b，同样不携带数据，消耗一个序号），B进入SYN-RCVD(同步收到)状态</p>
+</li>
+<li><p>A收到B的确认之后，再向B发送确认（ACK为1，确认号为b+1，自己的序号为a+1，如果不携带数据不消耗序号），A进入ESTABLISHED(已建立连接)状态</p>
+</li>
+<li><p>B收到A的确认之后也进入STABLISHED(已建立连接)状态。</p>
+</li>
+</ol>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><p><img src="/images/tcp-2.jpg"></p>
+<ol>
+<li><p>A的应用进程向其TCP发送连接释放报文段，并停止发送数据。（FIN为1，即使不携带数据也要消耗一个序号）A进入FIN-WAIT-1(终止等待1)状态</p>
+</li>
+<li><p>B收到连接释放报文后即发送确认，进入CLOSE-WAIT(关闭等待)状态。此时可以认为A向B发送数据的连接已经被拆除了，TCP连接处于半关闭状态</p>
+</li>
+<li><p>A收到来自B的确认进入FIN-WAIT-2（终止等待2）状态</p>
+</li>
+<li><p>当B没有数据要发送给A时，发送连接释放报文段（FIN为1，重复上次已经发送过的确认号），B进入LAST-ACK(最后确认)状态</p>
+</li>
+<li><p>A收到B的连接释放报文后发送确认，进入TIME-WAIT（时间等待状态）</p>
+</li>
+<li><p>B收到A的确认之后就进入CLOSED（关闭）状态</p>
+</li>
+<li><p>A在TIME-WAIT状态必须等待时间等待计数器设置的2MSL之后才能进入CLOSED状态。MSL叫最长报文段寿命。（设置MSL是为了保证A最后发送的确认能到达B，如果B没收到会重传连接释放报文段；同时防止网络中存在已经失效的连接报文，在2MSL的时间内可以使本连接产生的所有报文都从网络中消失）</p>
+</li>
+</ol>
 <p><br><br></p>
 
       
@@ -514,6 +537,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/01/tcp-3/" rel="prev" title="滑动窗口协议">
+                滑动窗口协议 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -594,7 +621,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

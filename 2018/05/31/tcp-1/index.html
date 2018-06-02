@@ -95,7 +95,7 @@
 <meta property="og:description" content="整理tcp相关知识，这是第一篇。 tcp报文格式：  1.源端口和目的端口:加上ip首部的源ip与目的ip可以唯一确定一个tcp连接。 2.序号:该报文中第一个字节的序号（tcp是给每个字节都编号的） 3.确认号：ack为1时有效，表示期望收到的下一个字节的序号。         （就是告诉对方，下次要从哪个字节开始给自己发数据） 4.保留位：必须为0 5.URG：值为1时表示紧急指针有效 6.A">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://letangers.github.io/images/tcp-1.jpg">
-<meta property="og:updated_time" content="2018-05-30T16:53:18.342Z">
+<meta property="og:updated_time" content="2018-06-01T15:25:06.801Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="tcp报文格式">
 <meta name="twitter:description" content="整理tcp相关知识，这是第一篇。 tcp报文格式：  1.源端口和目的端口:加上ip首部的源ip与目的ip可以唯一确定一个tcp连接。 2.序号:该报文中第一个字节的序号（tcp是给每个字节都编号的） 3.确认号：ack为1时有效，表示期望收到的下一个字节的序号。         （就是告诉对方，下次要从哪个字节开始给自己发数据） 4.保留位：必须为0 5.URG：值为1时表示紧急指针有效 6.A">
@@ -446,6 +446,10 @@
 <p>11.窗口：该报文发送方的接收窗口大小（窗口其实就是个偏移量）</p>
 <p>12.校验和：检验伪首部+首部+数据部分</p>
 <p>13.紧急指针：URG为1时有效，指出本报文段紧急数据的字节数。（即使窗口为0，也可以发送紧急数据）</p>
+<p>14.选项：长度可变，最长40个字节<br>(1)最大报文长度（MSS）：每个tcp报文段中数据部分的最大长度(应该尽可能的大，只要在ip层传输时不分片就行，若主机未填写默认时536字节)</p>
+<p>(2)窗口扩大选项：占三个字节，为了扩大窗口。有一个字节表示移位值S，S允许的最大值为14，即窗口最大可增大为2的30次幂减1</p>
+<p>(3)时间戳选项：10个字节。有两个作用，一是计算往返时间RTT，二用于处理TCP序号超过2的32次幂的情况(称为防止序号绕回PAWS)</p>
+<p>(4)选择确认选项SACK：双方商定好允许SACK之后，用来报告收到的不连续的字节块的边界（最多指明4个字节块），这样发送方就可以不再重复发送已收到的数据。然而SACK文档并没有指明发送方应该怎样响应SACK，因此大多数的实现还是重传所有未确认的数据块。</p>
 
       
     </div>
@@ -510,8 +514,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/29/data-struct-1/" rel="next" title="线性表">
-                <i class="fa fa-chevron-left"></i> 线性表
+              <a href="/2018/05/30/sort/" rel="next" title="排序(1)">
+                <i class="fa fa-chevron-left"></i> 排序(1)
               </a>
             
           </div>
@@ -594,7 +598,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
