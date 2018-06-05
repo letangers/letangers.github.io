@@ -86,18 +86,22 @@
 
 
 
-<meta name="description" content="整理tcp相关知识，这是第三篇。">
+<meta name="description" content="整理tcp相关知识，这是第三篇。 TCP的滑动窗口是以字节为单位的。 对于A和B的连接，现在假设只有A在发送数据，而B给出确认。 发送窗口和接收窗口发送缓存和发送窗口 A作为发送方存在一块发送缓存，发送缓存存放：①发送应用程序传给发送方TCP准备发送的数据②TCP已发送但未收到确认的数据 A的发送窗口：在没收到B的确认时，A可以连续把窗口内的数据都发送出去，已发送的数据在没收到确认时都要暂时保留用">
 <meta name="keywords" content="tcp,计算机网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="滑动窗口协议">
 <meta property="og:url" content="http://letangers.github.io/2018/06/01/tcp-3/index.html">
 <meta property="og:site_name" content="letangers">
-<meta property="og:description" content="整理tcp相关知识，这是第三篇。">
+<meta property="og:description" content="整理tcp相关知识，这是第三篇。 TCP的滑动窗口是以字节为单位的。 对于A和B的连接，现在假设只有A在发送数据，而B给出确认。 发送窗口和接收窗口发送缓存和发送窗口 A作为发送方存在一块发送缓存，发送缓存存放：①发送应用程序传给发送方TCP准备发送的数据②TCP已发送但未收到确认的数据 A的发送窗口：在没收到B的确认时，A可以连续把窗口内的数据都发送出去，已发送的数据在没收到确认时都要暂时保留用">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-01T17:09:06.066Z">
+<meta property="og:image" content="http://letangers.github.io/images/tcp-3-2.jpg">
+<meta property="og:image" content="http://letangers.github.io/images/tcp-3-1.png">
+<meta property="og:image" content="http://letangers.github.io/images/tcp-3-3.jpg">
+<meta property="og:updated_time" content="2018-06-05T17:40:42.317Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="滑动窗口协议">
-<meta name="twitter:description" content="整理tcp相关知识，这是第三篇。">
+<meta name="twitter:description" content="整理tcp相关知识，这是第三篇。 TCP的滑动窗口是以字节为单位的。 对于A和B的连接，现在假设只有A在发送数据，而B给出确认。 发送窗口和接收窗口发送缓存和发送窗口 A作为发送方存在一块发送缓存，发送缓存存放：①发送应用程序传给发送方TCP准备发送的数据②TCP已发送但未收到确认的数据 A的发送窗口：在没收到B的确认时，A可以连续把窗口内的数据都发送出去，已发送的数据在没收到确认时都要暂时保留用">
+<meta name="twitter:image" content="http://letangers.github.io/images/tcp-3-2.jpg">
 
 
 
@@ -429,7 +433,21 @@
 
       
         <p><center>整理tcp相关知识，这是第三篇。</center></p>
-<hr>
+<p><hr><br>TCP的滑动窗口是以字节为单位的。</p>
+<p>对于A和B的连接，现在假设只有A在发送数据，而B给出确认。</p>
+<h3 id="发送窗口和接收窗口"><a href="#发送窗口和接收窗口" class="headerlink" title="发送窗口和接收窗口"></a>发送窗口和接收窗口</h3><h4 id="发送缓存和发送窗口"><a href="#发送缓存和发送窗口" class="headerlink" title="发送缓存和发送窗口"></a>发送缓存和发送窗口</h4><p><img src="/images/tcp-3-2.jpg"></p>
+<p>A作为发送方存在一块发送缓存，发送缓存存放：<br>①发送应用程序传给发送方TCP准备发送的数据<br>②TCP已发送但未收到确认的数据</p>
+<p>A的发送窗口：在没收到B的确认时，A可以连续把窗口内的数据都发送出去，已发送的数据在没收到确认时都要暂时保留用以超时重传。（个人理解发送窗口就是相对已确认的最后一个序号的偏移量，在这个偏移量之内的数据可以发送出去）</p>
+<p><img src="/images/tcp-3-1.png"></p>
+<p>发送窗口通常只是发送缓存的一部分。已被确认的数据应该从发送缓存中移除，所以发送缓存和发送窗口的后沿是重合的。</p>
+<p>发送窗口的位置由前沿和后沿的位置共同决定。后沿后面的部分表示已经发送并且收到了确认，前沿之前表示不允许发送的数据，前沿和后沿之间就是窗口大小。</p>
+<h4 id="接收缓存和接收窗口"><a href="#接收缓存和接收窗口" class="headerlink" title="接收缓存和接收窗口"></a>接收缓存和接收窗口</h4><p><img src="/images/tcp-3-3.jpg"></p>
+<p>B作为接收方存在一块接受缓存，接受缓存存放：<br>①按序到达尚未被接收应用程序读取的数据<br>②未按序到达的数据</p>
+<p>B的接收窗口：从最后一个确认号算起，B还能够接收的数据。</p>
+<h3 id="滑动窗口"><a href="#滑动窗口" class="headerlink" title="滑动窗口"></a>滑动窗口</h3><p>A向B发送连续的数据，如果B收到的数据是<br>(1) 按序到达的，则对最后一个序号发送确认<br>(2) 如果B没有按顺序收到数据，通常接收方会临时存放在接收窗口中，等待收到字节流中缺少的部分之后再按序交付上层应用进程<br>(3) 收到的分组检测到有差错，那么就丢弃该分组</p>
+<p>如果A长时间收不到B发回确认，则A认为B没有收到这些数据，经过一段时间之后（由超时计时器控制）A就会重传未确认的数据，重新设置超时计时器，直到收到B的确认。当A收到的确认号落在发送窗口内，A就可以向前滑动发送窗口，并发送新的数据。</p>
+<h3 id="流量控制"><a href="#流量控制" class="headerlink" title="流量控制"></a>流量控制</h3><p>接收方在给发送方发送确认时，会通告发送方接收窗口的大小，从而改变发送方的发送窗口，实现了控制发送方的发送速率。这就是流量控制。</p>
+<p><br></p>
 
       
     </div>
@@ -554,8 +572,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -635,6 +662,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#发送窗口和接收窗口"><span class="nav-number">1.</span> <span class="nav-text">发送窗口和接收窗口</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#发送缓存和发送窗口"><span class="nav-number">1.1.</span> <span class="nav-text">发送缓存和发送窗口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#接收缓存和接收窗口"><span class="nav-number">1.2.</span> <span class="nav-text">接收缓存和接收窗口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#滑动窗口"><span class="nav-number">2.</span> <span class="nav-text">滑动窗口</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#流量控制"><span class="nav-number">3.</span> <span class="nav-text">流量控制</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
